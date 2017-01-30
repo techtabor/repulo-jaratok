@@ -1,81 +1,102 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Repülések</title>
     <meta charset="utf-8">
-</head>
-<style type="text/css">    table {
-   border-collapse: collapse;
-}
-
-table, td, th {
-   border: 1px solid black;
-</style>>
-<body>
-
-     <table id="main">
-         <tr id="head">
-             <!--<th>Code From</th>>
-            <th>Code to</th>>-->
-            <th>City From</th>>
-            <th>City To</th>>
-            <!--<th>Transfer?</th>>
-            <th>Airline</th>>
-            <th>Personal?</th>>
-            <th>Date</th>>
-            <th>Date of Arrive</th>>-->
-         </tr>
-
-     </table>
-      <div id="page-wrapper">
-        <div>
-            Select a text file: 
-            <input type="file" id="fileInput">
-        </div>
-        <pre id="fileDisplayArea"><pre>
-
+    <style type="text/css">
+      table {
+        border-collapse: collapse;
+      }
+      table, td, th {
+        border: 1px solid black;
+      }
+    </style>>
+  </head>
+  <body>
+    <table id="main">
+      <tr id="head">
+        <!--<th>Code From</th>>
+        <th>Code to</th>>-->
+        <th>City From</th>>
+        <th>City To</th>>
+        <!--<th>Transfer?</th>>
+        <th>Airline</th>>
+        <th>Personal?</th>>
+        <th>Date</th>>
+        <th>Date of Arrive</th>>-->
+      </tr>
+    </table>
+    <pre id="fileDisplayArea"><pre>
+    <div id="page-wrapper">
+      <div>
+        Select a text file: 
+        <input type="file" id="fileInput">
+      </div>
     </div>
-<script>
-window.onload = function() {
+    <script>
+      var elemNumber=3;
+      window.onload = function() {
         var fileInput = document.getElementById('fileInput');
         var fileDisplayArea = document.getElementById('fileDisplayArea');
-
         fileInput.addEventListener('change', function(e) {
-            var file = fileInput.files[0];
-            var textType = /text.*/;
-
-            //if (file.type.match(textType)) {
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    fileDisplayArea.innerText = reader.result;
-                }
-
-                reader.readAsText(file);    
-           // } else {
-                fileDisplayArea.innerText = "File not supported!"
-           // }
+          var file = fileInput.files[0];
+          var textType = /text.*/;
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            var data=reader.result;
+            data = data.replace(/(?:\r\n|\r|\n)/g, '|');
+            set(data);
+            //fileDisplayArea.innerText = /*reader.result*/data;
+          }
+          reader.readAsText(file);    
         });
-}
+      }
 
+      function set(data){
+        var tableData= toArray(data);
+        gyakori(tableData);
+        var table = document.getElementById("main");
+        while(table.rows.length>1)table.deleteRow(0);
+        for(var i=0;i<tableData.length;i++){
+          if(tableData[i][0] != ""){
+            var newRow = table.insertRow(table.rows.length);
+            for(var j=0;j<elemNumber;j++){
+              var cell = newRow.insertCell(j);
+              cell.innerHTML = tableData[i][j];
+            }
+          }
+        }
+      }
 
-   var tableData= [["Budapest", "London"] ,[ "London", "Budapest"] ,[ "Minneapolis", "San Francisco"] ,[ "San Francisco", "New York"] ,[ "New York", "London"] ,[ "London", "Vancouver"] ,[ "Vancouver", "San Francisco"] ,[ "San Francisco", "Toronto"] ,[ "Toronto", "London"] ,[ "London", "Budapest"] ,[ "Budapest", "London"] ,[ "London", "Budapest"] ,[ "Budapest", "London"] ,[ "London", "San Francisco"] ,[ "San Francisco", "New York"] ,[ "New York", "London"] ,[ "London", "Budapest"] ,[ "Budapest", "Dortmund"] ,[ "Dortmund", "London"] ,[ "London", "Budapest"] ,[ "Budapest", "Frankfurt"] ,[ "Frankfurt", "Washington DC"] ,[ "Washington DC", "San Francisco"] ,[ "San Francisco", "Washington DC"] ,[ "Washington DC", "San Francisco"] ,[ "San Francisco", "London"] ];
-   var table = document.getElementById("main");
- 
-   for(var i=0;i<tableData.length;i++){
-       var newRow = table.insertRow(table.rows.length);
-       var cell1 = newRow.insertCell(0);
-       var cell2 = newRow.insertCell(1);
-       cell1.innerHTML = tableData[i][0];
-       cell2.innerHTML = tableData[i][1];
-   }
+      function toArray(data){
+        var tomb=data.split("|")
+        var re=[];
+        for(var i=0;i<tomb.length-1;i++){
+          re.push(tomb[i].split(";"));
+        }
+        return re;
+      }
 
-     </script>
-
-    
-    
-
-
-
-</body>
+      function gyakori(dataTomb){
+        var gyakNev=[dataTomb[0][0]];
+        var gyakNum=[0];
+        for(var i=0;i<dataTomb.length;i++){
+          for(var j=0;j<2;j++){
+            if(dataTomb[i][j]!=""){
+              var x=-1;
+              for(var k=0;k<gyakNev.length;k++){
+                if(gyakNev[k]==dataTomb[i][j]){x=k;gyakNum[k]++;}
+              }
+              if(x==-1){gyakNev.push(dataTomb[i][j]);gyakNum.push[1];}
+            }
+          }
+        }
+        var x=0;
+        for(var i=0;i<gyakNev.length;i++){
+          if(gyakNum[x]<gyakNum[i])x=i;
+        }
+        fileDisplayArea.innerText = "A leggyakrabbi varos: "+ gyakNev[x];
+      }
+    </script>
+  </body>
 </html>
