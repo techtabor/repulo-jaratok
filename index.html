@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Repülések</title>
+    <meta charset="utf-8">
+</head>
+<style type="text/css">    table {
+   border-collapse: collapse;
+}
+
+table, td, th {
+   border: 1px solid black;
+</style>>
+<body>
+
+     <table id="main">
+         <tr id="head">
+             <!--<th>Code From</th>>
+            <th>Code to</th>>-->
+            <th>City From</th>>
+            <th>City To</th>>
+            <!--<th>Transfer?</th>>
+            <th>Airline</th>>
+            <th>Personal?</th>>
+            <th>Date</th>>
+            <th>Date of Arrive</th>>-->
+         </tr>
+
+     </table>
+      <div id="page-wrapper">
+        <div>
+            Select a text file: 
+            <input type="file" id="fileInput">
+        </div>
+        <pre id="fileDisplayArea"><pre>
+
+    </div>
+<script>
+window.onload = function() {
+        var fileInput = document.getElementById('fileInput');
+        var fileDisplayArea = document.getElementById('fileDisplayArea');
+
+        fileInput.addEventListener('change', function(e) {
+            var file = fileInput.files[0];
+            var textType = /text.*/;
+
+            //if (file.type.match(textType)) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    fileDisplayArea.innerText = reader.result;
+                }
+
+                reader.readAsText(file);    
+           // } else {
+                fileDisplayArea.innerText = "File not supported!"
+           // }
+        });
+}
+
+
+   var tableData= [["Budapest", "London"] ,[ "London", "Budapest"] ,[ "Minneapolis", "San Francisco"] ,[ "San Francisco", "New York"] ,[ "New York", "London"] ,[ "London", "Vancouver"] ,[ "Vancouver", "San Francisco"] ,[ "San Francisco", "Toronto"] ,[ "Toronto", "London"] ,[ "London", "Budapest"] ,[ "Budapest", "London"] ,[ "London", "Budapest"] ,[ "Budapest", "London"] ,[ "London", "San Francisco"] ,[ "San Francisco", "New York"] ,[ "New York", "London"] ,[ "London", "Budapest"] ,[ "Budapest", "Dortmund"] ,[ "Dortmund", "London"] ,[ "London", "Budapest"] ,[ "Budapest", "Frankfurt"] ,[ "Frankfurt", "Washington DC"] ,[ "Washington DC", "San Francisco"] ,[ "San Francisco", "Washington DC"] ,[ "Washington DC", "San Francisco"] ,[ "San Francisco", "London"] ];
+   var table = document.getElementById("main");
+ 
+   for(var i=0;i<tableData.length;i++){
+       var newRow = table.insertRow(table.rows.length);
+       var cell1 = newRow.insertCell(0);
+       var cell2 = newRow.insertCell(1);
+       cell1.innerHTML = tableData[i][0];
+       cell2.innerHTML = tableData[i][1];
+   }
+
+     </script>
+
+    
+    
+
+
+
+</body>
+</html>
