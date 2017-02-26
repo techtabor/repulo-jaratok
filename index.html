@@ -52,7 +52,7 @@
         var table = document.getElementById("cities");
         for(var i=1;i<table.rows.length;i++){
           var x = table.rows[i].cells;
-          var t=[x[0].innerHTML,parseInt(x[1].innerHTML),parseInt(x[2].innerHTML),2];
+          var t=[x[0].innerHTML,parseFloat(x[1].innerHTML),parseFloat(x[2].innerHTML),2];
           tomb.push(t);
         }
       //alert(tomb);
@@ -212,7 +212,7 @@
       ['Coogee Beach', -33.923036, 151.259052, 2],
       ['Cronulla Beach', -34.028249, 151.157507, 2],
       ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-      ['Maroubra Beach', -33.950198, 151.259302, 2]
+      ['Maroubra Beach', -33., 151.259302, 2]
     ];*/
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 3,
